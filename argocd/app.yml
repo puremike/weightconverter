@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: weight-converter
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/puremike/weightconverter.git
+    targetRevision: main
+    path: k8s
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: weight-converter
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
