@@ -33,7 +33,8 @@ jobs:
           images: docker.io/${{ vars.DOCKER_USERNAME }}/weight-converter
           tags: |
             type=semver,pattern={{major}}.{{minor}}
-            
+            type=sha,format=long,prefix=sha-
+
       - name: Build docker image (load into local Docker)
         uses: docker/build-push-action@v6
         with:
@@ -47,7 +48,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.28.0
         with:
-          image-ref: ${{ steps.meta.outputs.tags }}
+          image-ref: docker.io/${{ vars.DOCKER_USERNAME }}/weight-converter:${{ github.sha }}
           format: table
           exit-code: '1'
           ignore-unfixed: true
