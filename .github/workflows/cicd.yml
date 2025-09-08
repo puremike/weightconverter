@@ -32,8 +32,8 @@ jobs:
         with:
           images: docker.io/${{ vars.DOCKER_USERNAME }}/weight-converter
           tags: |
-            type=semver,pattern={{major}}.{{minor}}
-            type=sha,format=long,prefix=sha-
+            type=semver,pattern={{major}}.{{minor}},enable=${{ startsWith(github.ref, 'refs/tags/v') }}
+            type=sha,format=long
 
       - name: Build docker image (load into local Docker)
         uses: docker/build-push-action@v6
@@ -41,9 +41,7 @@ jobs:
           context: ./app
           push: ${{ startsWith(github.ref, 'refs/tags/v') }}
           load: true
-          tags: |
-            ${{ steps.meta.outputs.tags-semver }}
-            docker.io/${{ vars.DOCKER_USERNAME }}/weight-converter:${{ github.sha }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           file: ./app/Dockerfile
 
@@ -70,3 +68,5 @@ jobs:
         with:
           commit_message: "Update image to ${{ steps.meta.outputs.tags-semver }}"
           file_pattern: k8s/deployment.yml
+          branch: main
+          push_options: '--force'
