@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weight-converter
+  namespace: weight-converter
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: weight-converter
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: weight-converter
+        app.kubernetes.io/instance:  weight-converter
+
+    spec:
+      containers:
+      - name:  weight-converter
+        image: docker.io/scophee/weight-converter:1.2.3
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "80Mi"
+          limits:
+            cpu: "100m"
+            memory: "100Mi"
+        ports:
+        - containerPort:  80
