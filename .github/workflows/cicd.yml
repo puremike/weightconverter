@@ -62,8 +62,7 @@ jobs:
       - name: Update Kubernetes manifest (only on tag push)
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
-          # Get the first tag and remove any trailing whitespace or newline
-          IMAGE=$(echo "${{ steps.meta.outputs.tags-semver }}" | tr -d '\n')
+          IMAGE=docker.io/${{ vars.DOCKER_USERNAME }}/weight-converter:${{ steps.meta.outputs.version }}
           sed -i "s|image: .*|image: $IMAGE|g" k8s/deployment.yml
 
       - name: Commit and push changes
