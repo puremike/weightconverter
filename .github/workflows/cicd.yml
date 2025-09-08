@@ -33,9 +33,7 @@ jobs:
           images: docker.io/${{ vars.DOCKER_USERNAME }}/weight-converter
           tags: |
             type=semver,pattern={{major}}.{{minor}}
-            type=sha
-            # type=ref,event=branch,pattern=latest
-
+            
       - name: Build docker image (load into local Docker)
         uses: docker/build-push-action@v6
         with:
