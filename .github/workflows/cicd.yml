@@ -1,4 +1,4 @@
-name: CI-CD - Build Docker Images and Deploy to DockerHub
+name: CI-CD - Build and Deploy Docker Images
 
 on: 
   push:
