@@ -12,7 +12,7 @@ spec:
   - http:
       paths:
       - pathType: Prefix
-        path: "/"
+        path: "/weight"
         backend:
           service:
             name: weight-converter
